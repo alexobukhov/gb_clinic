@@ -13,11 +13,14 @@
             <th>Цена</th>
         </tr>
         <tr th:each="product : ${products}">
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.title}"></td>
-            <td th:text="${product.cost}"></td>
+            <form action="index.html" th:action="@{/{id}/delete(id=${product.id})}">
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.title}"></td>
+                <td th:text="${product.cost}"></td>
+                <td><button type="submit">Удалить</button></td>
+            </form>
         </tr>
     </table>
-    <a href="http://localhost:8080/products/add">Добавить продукт</a>
+    <a href="add.html" th:href="@{/add}">Добавить продукт</a>-->
 </body>
 </html>

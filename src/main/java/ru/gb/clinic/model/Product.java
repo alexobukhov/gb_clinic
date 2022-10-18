@@ -2,16 +2,15 @@ package ru.gb.clinic.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Date;
 
-@Entity(name = "product")
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -23,5 +22,12 @@ public class Product {
     private String title;
 
     @Column(name = "cost")
-    private float cost;
+    private int cost;
+
+    @Column(name = "purchase_date")
+    private Date puchaseDate;
+
+    @OneToOne
+    @JoinColumn(name = "purchase_id")
+    private Client client;
 }
