@@ -10,6 +10,10 @@ import java.util.List;
 @Component
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("select id, title, cost from product")
-    public List<Product> getAllProducts();
+
+    public List<Product> findAllByCostIsAfter(int minCost);
+
+    public List<Product> findAllByCostIsBefore(int maxCost);
+
+    public List<Product> findAllByCostIsBetween(int minCost, int maxCost);
 }

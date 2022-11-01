@@ -1,39 +1,37 @@
 package ru.gb.clinic.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 import ru.gb.clinic.model.Product;
 import ru.gb.clinic.service.ProductService;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/app")
 public class ProductController {
 
     @Autowired
     ProductService productService;
 
-    @GetMapping("/products")
-    public String getProducts(Model model) {
-        List<Product> productList = productService.getAllProducts();
-        model.addAttribute("products", productList);
-        return "products";
+    @GetMapping(name = "/products/{id}", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
+    public Product getProduct(@PathVariable Long id) {
+        return productService.get(id);
     }
 
-    @GetMapping(value = "/products/add")
-    public String getAddProductForm(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
-        return "add";
+    @GetMapping(name = "/products", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
+    public List<Product> getProductList() {
+        return productService.getAll();
     }
 
-    @PostMapping(value = "/products/save")
-    public String addProduct(Product product, Model model) {
-        productService.saveProduct(product);
-        model.addAttribute(product);
-        return "save";
+    @PostMapping(name = "/products/", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
+    public void addProduct(Product product) {
+        productService.save(product);
+    }
+
+    @GetMapping(name = "/products/delete/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 }
