@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+</head>
+<body>
+    <h1>Список пользователей</h1>
+    <div sec:authorize="hasRole('ROLE_SUPERADMIN')">
+        <a href="add-user.html" th:href="@{/add}">Добавить пользователя</a>
+    </div>
+    <table>
+        <tr>
+            <th>Идентификатор пользователя</th>
+            <th>Имя пользователя</th>
+        </tr>
+        <tr th:each="user : ${user}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+        </tr>
+    </table>
+</body>
+</html>

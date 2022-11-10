@@ -38,11 +38,25 @@ public class ProductController {
         return "index";
     }
 
-    @DeleteMapping (value = "/delete/{id}")
+    @DeleteMapping (value = "/{id}/delete")
     public String deleteProduct(@PathVariable Long id, Model model) {
         productService.deleteProduct(id);
         List<Product> productList = productService.getAll();
         model.addAttribute("products", productList);
         return "index";
+    }
+
+    @GetMapping(value = "/update")
+    public String updateProducts(Model model) {
+        List<Product> productList = productService.getAll();
+        model.addAttribute("products", productList);
+        return "update";
+    }
+
+    @GetMapping(value = "/{id}/edit")
+    public String editProduct(Long id, Model model) {
+        Product product = productService.get(id);
+        model.addAttribute("product", product);
+        return "edit";
     }
 }
