@@ -2,21 +2,37 @@ package ru.gb.clinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.gb.clinic.model.Product;
 import ru.gb.clinic.repository.ProductRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    public Page<Product> getPage(Pageable pageable) {
+        List<Product> productList = productRepository.findAll();
+        int size = pageable.getPageSize();
+        int current = pageable.getPageNumber();
+        int start = current * size;
+        List<Product> listToView = new ArrayList<>();
+        if (productList.size() < start) {
+            listToView = Collections.emptyList();
+        } else {
+            int index = Math.min(start + size, productList.size());
+            listToView = productList.subList(start, index);
+        }
+        return new PageImpl<Product>(listToView, PageRequest.of(current, size), productList.size());
+    }
 
     public List<Product> getAll() {
         return productRepository.findAll();

@@ -9,7 +9,6 @@ import java.util.List;
 @Component
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-
     public List<Product> findAllByCostIsAfter(int minCost);
 
     public List<Product> findAllByCostIsBefore(int maxCost);
